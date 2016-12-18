@@ -8,9 +8,10 @@ namespace GitHubOrgStats.Models
 {
     public class QIssue
     {
+        public DateTime ClosedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
         public bool IsClosed { set; get; }
         public List<string> Labels { set; get; } = new List<string>();
-        public string Repository { get; internal set; }
-        public string Title { get; internal set; }
+        public string Title { get; set; }
     }
 }

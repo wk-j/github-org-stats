@@ -14,24 +14,85 @@ namespace GitHubOrgStats
 {
     public class GithubPlot
     {
-        private string ExportToPng(BarSeries bar, CategoryAxis axis, string title)
+        private string ExportToPng(BarSeries bar, CategoryAxis axis, string title, int fontSize = 18)
         {
             var model = new PlotModel
             {
                 Title = title,
-                DefaultFontSize = 18
+                DefaultFontSize = fontSize
             };
+
+            var max = bar.ItemsSource.Cast<BarItem>().Max(x => x.Value) + 10;
 
             bar.LabelPlacement = LabelPlacement.Inside;
 
             model.Series.Add(bar);
             model.Axes.Add(axis);
 
+
             var path = Path.Combine(Path.GetTempPath(), $"{ Guid.NewGuid().ToString("N")}.png");
 
-            var pngExporter = new PngExporter { Width = 1000, Height = 600, Background = OxyColors.White };
+            var pngExporter = new PngExporter { Width = 1400, Height = 600, Background = OxyColors.White };
             pngExporter.ExportToFile(model, path);
             return path;
+        }
+
+        public string PlotClosingIssues(IEnumerable<QRepository> repos)
+        {
+            var info = repos.SelectMany(x => x.Issues)
+                .Where(x => x.IsClosed)
+                .GroupBy(x => x.CreatedAt.DayOfWeek).Select(x => new
+                {
+                    DayOfWeek = (int)x.First().CreatedAt.DayOfWeek,
+                    Day = x.Key,
+                    Total = x.Count()
+                }).OrderByDescending(x => x.DayOfWeek).ToList();
+
+            var bar = new BarSeries
+            {
+                ItemsSource = info.Select(x => new BarItem
+                {
+                    Value = x.Total
+                }),
+                LabelFormatString = "{0}"
+            };
+
+            var axis = new CategoryAxis
+            {
+                Position = AxisPosition.Left,
+                ItemsSource = info.Select(x => x.Day)
+            };
+
+            return ExportToPng(bar, axis, "", fontSize: 15);
+        }
+
+
+        public string PlotOpeningIssues(IEnumerable<QRepository> repos)
+        {
+            var info = repos.SelectMany(x => x.Issues)
+                .GroupBy(x => x.CreatedAt.DayOfWeek).Select(x => new
+                {
+                    DayOfWeek = (int)x.First().CreatedAt.DayOfWeek,
+                    Day = x.Key,
+                    Total = x.Count()
+                }).OrderByDescending(x => x.DayOfWeek).ToList();
+
+            var bar = new BarSeries
+            {
+                ItemsSource = info.Select(x => new BarItem
+                {
+                    Value = x.Total
+                }),
+                LabelFormatString = "{0}"
+            };
+
+            var axis = new CategoryAxis
+            {
+                Position = AxisPosition.Left,
+                ItemsSource = info.Select(x => x.Day)
+            };
+
+            return ExportToPng(bar, axis, "", fontSize: 15);
         }
 
         public string PlotIssues(IEnumerable<QRepository> repos)
@@ -40,9 +101,7 @@ namespace GitHubOrgStats
             {
                 Issues = x.Issues.Count(),
                 Repository = x.Name,
-                Open = x.Issues.Where(k => !k.IsClosed).Count(),
-                Closed = x.Issues.Where(k => k.IsClosed).Count()
-            }).OrderByDescending(x => x.Issues).Take(20);
+            }).OrderByDescending(x => x.Issues).Where(x => x.Issues > 0).Take(15);
 
             var bar = new BarSeries
             {
@@ -59,7 +118,7 @@ namespace GitHubOrgStats
                 ItemsSource = day.Select(x => x.Repository)
             };
 
-            return ExportToPng(bar, axis, "");
+            return ExportToPng(bar, axis, "", fontSize: 15);
         }
 
         public IEnumerable<string> PlotLongRun(IEnumerable<QRepository> repos)
@@ -143,7 +202,7 @@ namespace GitHubOrgStats
             {
                 Repository = x.Name,
                 Total = x.Commits.Count()
-            }).Take(10);
+            }).Take(15);
 
 
             var bar = new BarSeries

@@ -16,17 +16,37 @@ namespace GitHubOrgStats.Tests
     {
 
         [Fact]
-        public void ShouldIssues()
+        public void ShouldPlotCloseIssue()
         {
-            var mainClass = new MainClass();
-            var repos = mainClass.GetRepositories();
+            var plot = new GithubPlot();
+            var repos = GetRepositories();
+            var rs = plot.PlotClosingIssues(repos);
 
+            File.Copy(rs, "__CloseIssues.png", true);
+        }
+
+
+        [Fact]
+        public void ShouldPlotOpenIssues()
+        {
+            var repos = GetRepositories();
+            var plot = new GithubPlot();
+            var rs = plot.PlotOpeningIssues(repos);
+
+            File.Copy(rs, "__OpenIssues.png", true);
+        }
+
+
+
+        [Fact]
+        public void ShouldPlotIssues()
+        {
+            var repos = GetRepositories();
             var plot = new GithubPlot();
             var rs = plot.PlotIssues(repos);
 
             File.Copy(rs, "__Issues.png", true);
         }
-
 
         [Fact]
         public void ShouldPlotLongRun()
