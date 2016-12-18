@@ -1,10 +1,7 @@
 ﻿using System;
 namespace GitHubOrgStats {
 
-	public class GithubUtility<T> {
-		public GithubUtility() {
-		}
-
+	public class Utility<T> {
 		public static T Default(Func<T> action) {
 			try {
 				return action();

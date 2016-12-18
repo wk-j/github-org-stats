@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubOrgStats", "GitHubOrg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubOrgStats.Tests", "GitHubOrgStats.Tests\GitHubOrgStats.Tests.csproj", "{EE4789DE-0428-446D-BF1D-702E5A7F15CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GithubOrgStats.App", "GithubOrgStats.App\GithubOrgStats.App.csproj", "{0CB452BD-E148-4D0F-A7AA-D6AECAD2892A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,5 +21,9 @@ Global
 		{EE4789DE-0428-446D-BF1D-702E5A7F15CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE4789DE-0428-446D-BF1D-702E5A7F15CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE4789DE-0428-446D-BF1D-702E5A7F15CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CB452BD-E148-4D0F-A7AA-D6AECAD2892A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CB452BD-E148-4D0F-A7AA-D6AECAD2892A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CB452BD-E148-4D0F-A7AA-D6AECAD2892A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CB452BD-E148-4D0F-A7AA-D6AECAD2892A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

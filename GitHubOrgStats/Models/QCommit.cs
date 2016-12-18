@@ -1,7 +1,8 @@
 ﻿using System;
-namespace GitHubOrgStats {
+namespace GitHubOrgStats.Models {
 	public class QCommit {
-		public QCommit() {
-		}
+		public string Commiter { set; get; }
+		public string Message { set; get; }
+		public DateTime Date { set; get; }
 	}
 }
