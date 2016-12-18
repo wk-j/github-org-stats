@@ -14,6 +14,42 @@ namespace GitHubOrgStats.Tests
 {
     public class PlotSpec : TestBase
     {
+        [Fact]
+        public void ShoudSum()
+        {
+            var repos = GetRepositories();
+            var issues = repos.SelectMany(x => x.Issues).Count();
+            var commits = repos.SelectMany(x => x.Commits).Count();
+        }
+
+        [Fact]
+        public void ShouldPlotCommter()
+        {
+            var plot = new GithubPlot();
+            var repos = GetRepositories();
+            var rs = plot.PlotCommiters(repos);
+            File.Copy(rs, "__Commiters.png", true);
+
+        }
+
+
+        [Fact]
+        public void ShouldPlotIssueCloser()
+        {
+            var plot = new GithubPlot();
+            var repos = GetRepositories();
+            var rs = plot.PlotIssueClosers(repos);
+            File.Copy(rs, "__IssueCloser.png", true);
+        }
+
+        [Fact]
+        public void ShouldPlotIssueCreator()
+        {
+            var plot = new GithubPlot();
+            var repos = GetRepositories();
+            var rs = plot.PlotIssueCreators(repos);
+            File.Copy(rs, "__IssueCreators.png", true);
+        }
 
         [Fact]
         public void ShouldPlotCloseIssue()

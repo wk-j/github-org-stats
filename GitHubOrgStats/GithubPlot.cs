@@ -37,6 +37,80 @@ namespace GitHubOrgStats
             return path;
         }
 
+        public string PlotIssueClosers(IEnumerable<QRepository> repos)
+        {
+            var info = repos.SelectMany(x => x.Issues)
+                .Where(x => x.IsClosed)
+                .GroupBy(x => x.ClosedBy)
+                .Select(x => new
+                {
+                    Closer = x.Key,
+                    Total = x.Count()
+                }).ToList();
+
+            var bar = new BarSeries
+            {
+                ItemsSource = info.Select(x => new BarItem { Value = x.Total }),
+                LabelFormatString = "{0} Issues"
+            };
+
+            var axis = new CategoryAxis
+            {
+                Position = AxisPosition.Left,
+                ItemsSource = info.Select(x => x.Closer)
+            };
+
+            return ExportToPng(bar, axis, "");
+
+        }
+
+        public string PlotCommiters(IEnumerable<QRepository> repos)
+        {
+            var info = repos.SelectMany(x => x.Commits).GroupBy(x => x.Commiter)
+                .Select(x => new
+                {
+                    Commiter = x.Key,
+                    Total = x.Count()
+                });
+
+            var bar = new BarSeries
+            {
+                ItemsSource = info.Select(x => new BarItem { Value = x.Total }),
+                LabelFormatString = "{0} Commits"
+            };
+
+            var axis = new CategoryColorAxis
+            {
+                Position = AxisPosition.Left,
+                ItemsSource = info.Select(x => x.Commiter)
+            };
+
+            return ExportToPng(bar, axis, "");
+        }
+
+        public string PlotIssueCreators(IEnumerable<QRepository> repos)
+        {
+            var info = repos.SelectMany(x => x.Issues).GroupBy(x => x.CreatedBy).Select(x => new
+            {
+                CreateBy = x.Key,
+                Total = x.Count()
+            }).OrderBy(x => x.CreateBy);
+
+            var bar = new BarSeries
+            {
+                ItemsSource = info.Select(x => new BarItem { Value = x.Total }),
+                LabelFormatString = "{0}"
+            };
+
+            var axis = new CategoryAxis
+            {
+                Position = AxisPosition.Left,
+                ItemsSource = info.Select(x => x.CreateBy)
+            };
+
+            return ExportToPng(bar, axis, "");
+        }
+
         public string PlotClosingIssues(IEnumerable<QRepository> repos)
         {
             var info = repos.SelectMany(x => x.Issues)

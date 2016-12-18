@@ -56,7 +56,9 @@ namespace GitHubOrgStats
                     IsClosed = k.State == ItemState.Closed,
                     Labels = k.Labels.Select(y => y.Name).ToList(),
                     CreatedAt = k.CreatedAt.Date,
-                    ClosedAt = k.CreatedAt.Date
+                    ClosedAt = k.CreatedAt.Date,
+                    CreatedBy = k.User.Login,
+                    ClosedBy = Utility<string>.Default(() => k.ClosedBy.Login)
                 }).ToList();
 
                 return new QRepository
