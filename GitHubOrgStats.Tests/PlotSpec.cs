@@ -24,7 +24,7 @@ namespace GitHubOrgStats.Tests
             var plot = new GithubPlot();
             var rs = plot.PlotIssues(repos);
 
-            File.Copy(rs, "__Issues.png");
+            File.Copy(rs, "__Issues.png", true);
         }
 
 

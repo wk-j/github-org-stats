@@ -10,5 +10,7 @@ namespace GitHubOrgStats.Models
     {
         public bool IsClosed { set; get; }
         public List<string> Labels { set; get; } = new List<string>();
+        public string Repository { get; internal set; }
+        public string Title { get; internal set; }
     }
 }

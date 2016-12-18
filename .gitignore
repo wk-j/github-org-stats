@@ -30,7 +30,7 @@ Thumbs.db
 
 # Mac bundle stuff
 *.dmg
-*.app
+#*.app
 
 # resharper
 *_Resharper.*

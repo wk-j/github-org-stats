@@ -48,6 +48,8 @@ namespace GitHubOrgStats
 
                 var issues = github.Issue.GetAllForRepository(x.Id).Result.Select(k => new QIssue
                 {
+                    //Repository = k.Repository.Name,
+                    Title = k.Title,
                     IsClosed = k.State == ItemState.Closed,
                     Labels = k.Labels.Select(y => y.Name).ToList()
                 }).ToList();
