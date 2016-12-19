@@ -140,7 +140,6 @@ namespace GitHubOrgStats
             return ExportToPng(bar, axis, "", fontSize: 15);
         }
 
-
         public string PlotOpeningIssues(IEnumerable<QRepository> repos)
         {
             var info = repos.SelectMany(x => x.Issues)
