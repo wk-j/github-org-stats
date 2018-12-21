@@ -12,4 +12,4 @@ var chart = new GithubPlot().PlotCommitDays(repos);
 File.Copy(chart, "__Chart.png");
 ```
 
-![](Screen/__Days.png)
+![](images/__Days.png)
