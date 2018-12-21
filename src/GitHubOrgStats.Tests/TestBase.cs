@@ -6,22 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GitHubOrgStats.Tests
-{
-    public class TestBase
-    {
-        public IEnumerable<QRepository> GetRepositories()
-        {
+namespace GitHubOrgStats.Tests {
+    public class TestBase {
+        public IEnumerable<QRepository> GetRepositories() {
             var mainClass = new MainClass();
             var repos = mainClass.GetRepositories();
             return repos;
         }
-        public LoginInfo LoginInfo()
-        {
-            var pass = Environment.GetEnvironmentVariable("ghp");
+        public LoginInfo LoginInfo() {
+            var pass = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
 
-            var info = new LoginInfo
-            {
+            var info = new LoginInfo {
                 User = "wk-j",
                 Token = pass,
                 Organization = "bcircle"

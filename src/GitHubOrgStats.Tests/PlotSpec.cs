@@ -6,25 +6,20 @@ using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot.WindowsForms;
 using System.Linq;
-using NUnit.Framework;
 using Xunit;
 using GithubOrgStats.App;
 
-namespace GitHubOrgStats.Tests
-{
-    public class PlotSpec : TestBase
-    {
+namespace GitHubOrgStats.Tests {
+    public class PlotSpec : TestBase {
         [Fact]
-        public void ShoudSum()
-        {
+        public void ShoudSum() {
             var repos = GetRepositories();
             var issues = repos.SelectMany(x => x.Issues).Count();
             var commits = repos.SelectMany(x => x.Commits).Count();
         }
 
         [Fact]
-        public void ShouldPlotCommter()
-        {
+        public void ShouldPlotCommter() {
             var plot = new GithubPlot();
             var repos = GetRepositories();
             var rs = plot.PlotCommiters(repos);
@@ -34,8 +29,7 @@ namespace GitHubOrgStats.Tests
 
 
         [Fact]
-        public void ShouldPlotIssueCloser()
-        {
+        public void ShouldPlotIssueCloser() {
             var plot = new GithubPlot();
             var repos = GetRepositories();
             var rs = plot.PlotIssueClosers(repos);
@@ -43,8 +37,7 @@ namespace GitHubOrgStats.Tests
         }
 
         [Fact]
-        public void ShouldPlotIssueCreator()
-        {
+        public void ShouldPlotIssueCreator() {
             var plot = new GithubPlot();
             var repos = GetRepositories();
             var rs = plot.PlotIssueCreators(repos);
@@ -52,8 +45,7 @@ namespace GitHubOrgStats.Tests
         }
 
         [Fact]
-        public void ShouldPlotCloseIssue()
-        {
+        public void ShouldPlotCloseIssue() {
             var plot = new GithubPlot();
             var repos = GetRepositories();
             var rs = plot.PlotClosingIssues(repos);
@@ -63,8 +55,7 @@ namespace GitHubOrgStats.Tests
 
 
         [Fact]
-        public void ShouldPlotOpenIssues()
-        {
+        public void ShouldPlotOpenIssues() {
             var repos = GetRepositories();
             var plot = new GithubPlot();
             var rs = plot.PlotOpeningIssues(repos);
@@ -72,11 +63,8 @@ namespace GitHubOrgStats.Tests
             File.Copy(rs, "__OpenIssues.png", true);
         }
 
-
-
         [Fact]
-        public void ShouldPlotIssues()
-        {
+        public void ShouldPlotIssues() {
             var repos = GetRepositories();
             var plot = new GithubPlot();
             var rs = plot.PlotIssues(repos);
@@ -85,23 +73,20 @@ namespace GitHubOrgStats.Tests
         }
 
         [Fact]
-        public void ShouldPlotLongRun()
-        {
+        public void ShouldPlotLongRun() {
             var mainClass = new MainClass();
             var repos = mainClass.GetRepositories();
 
             var plot = new GithubPlot();
             var rs = plot.PlotLongRun(repos);
 
-            rs.ToList().Select((x, i) => new { Value = x, Index = i }).ToList().ForEach(x =>
-             {
-                 File.Copy(x.Value, $"__LongRun-{x.Index}.png", true);
-             });
+            rs.ToList().Select((x, i) => new { Value = x, Index = i }).ToList().ForEach(x => {
+                File.Copy(x.Value, $"__LongRun-{x.Index}.png", true);
+            });
         }
 
         [Fact]
-        public void ShouldPlotCommitByDay()
-        {
+        public void ShouldPlotCommitByDay() {
             var mainClass = new MainClass();
             var repos = mainClass.GetRepositories();
 
@@ -112,8 +97,7 @@ namespace GitHubOrgStats.Tests
         }
 
         [Fact]
-        public void ShouldPlotCommits()
-        {
+        public void ShouldPlotCommits() {
             var mainClass = new MainClass();
             var repos = mainClass.GetRepositories();
 
@@ -124,8 +108,7 @@ namespace GitHubOrgStats.Tests
         }
 
         [Fact]
-        public void ShouldPlotLanguage()
-        {
+        public void ShouldPlotLanguage() {
             var mainClass = new MainClass();
             var repos = mainClass.GetRepositories();
 

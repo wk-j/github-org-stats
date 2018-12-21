@@ -1,25 +1,20 @@
 ﻿using System;
 using Octokit;
-using FluentAssertions;
-using NUnit.Framework;
 using System.Linq;
+using Xunit;
 
-namespace GitHubOrgStats.Tests
-{
-    public class ApiSpec : TestBase
-    {
+namespace GitHubOrgStats.Tests {
+    public class ApiSpec : TestBase {
 
-        [Test]
-        public void ShouldGetRepository()
-        {
+        [Fact]
+        public void ShouldGetRepository() {
             var info = LoginInfo();
             var github = new Github(info);
             var repo = github.GetRepositories().Result.ToList();
         }
 
-        [Test]
-        public async void ShouldConnectToGithub()
-        {
+        [Fact]
+        public async void ShouldConnectToGithub() {
 
             var pass = Environment.GetEnvironmentVariable("ghp");
 
@@ -39,7 +34,6 @@ namespace GitHubOrgStats.Tests
 
             var repos = await github.Repository.GetAllForOrg("bcircle");
 
-            repo.Should().BeGreaterThan(10);
         }
     }
 }
