@@ -1,53 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using GitHubOrgStats;
-using LiteDB;
-using System.Linq;
-using GitHubOrgStats.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using System.Threading.Tasks;
 
 namespace GithubOrgStats.App {
-    public class MainClass {
+    class Program {
 
-        public string DbPath { get; } = "GithubOrgStats.App.db";
+        public static async Task Main(string[] args) {
 
-        public bool IsDbExist() {
-            return System.IO.File.Exists(DbPath);
-        }
+            Log.Logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
 
-        public List<QRepository> GetRepositories() {
+            var collection = new ServiceCollection();
+            collection.AddLogging(config => {
+                config.AddSerilog();
+            });
 
-            if (!IsDbExist()) {
-                var user = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
-                var pass = Environment.GetEnvironmentVariable("ghp") ?? user;
+            collection.AddSingleton<MainClass>();
 
-                var github = new Github(new LoginInfo {
-                    User = user,
-                    Token = pass,
-                    Organization = "bcircle"
-                });
-
-                using (var db = new LiteDatabase(DbPath)) {
-                    var stats = github.GetRepositories().Result;
-                    var col = db.GetCollection<QRepository>("Repositories");
-                    stats.ToList().ForEach(x => {
-                        col.Insert(x);
-                    });
-                    return stats.ToList();
-                }
-            } else {
-
-
-                using (var db = new LiteDatabase(DbPath)) {
-                    var col = db.GetCollection<QRepository>("Repositories");
-                    return col.FindAll().ToList();
-                }
-            }
-        }
-
-        public static void Main(string[] args) {
-
-            var main = new MainClass();
-            var repo = main.GetRepositories();
+            var provider = collection.BuildServiceProvider();
+            var main = provider.GetService<MainClass>();
+            await main.GetRepositories();
         }
     }
 }
